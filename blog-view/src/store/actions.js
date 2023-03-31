@@ -1,5 +1,5 @@
 import {
-	SAVE_COMMENT_RESULT,
+	SAVE_COMMENT_ResponseMessage,
 	SET_PARENT_COMMENT_ID,
 	RESET_COMMENT_FORM,
 	SET_BLOG_PASSWORD_DIALOG_VISIBLE,
@@ -61,7 +61,7 @@ export default {
 						}
 					})
 				})
-				commit(SAVE_COMMENT_RESULT, res.data)
+				commit(SAVE_COMMENT_ResponseMessage, res.data)
 			}
 		}).catch(() => {
 			Message.error("请求失败")

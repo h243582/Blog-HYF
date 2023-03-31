@@ -162,14 +162,14 @@
 				}
 			},
 			submit() {
-				const result = _.cloneDeep(this.typeMap)
-				result.type3.forEach(item => {
+				const ResponseMessage = _.cloneDeep(this.typeMap)
+				ResponseMessage.type3.forEach(item => {
 					item.value = JSON.stringify(item.value)
 				})
 				let updateArr = []
-				updateArr.push(...result.type1)
-				updateArr.push(...result.type2)
-				updateArr.push(...result.type3)
+				updateArr.push(...ResponseMessage.type1)
+				updateArr.push(...ResponseMessage.type2)
+				updateArr.push(...ResponseMessage.type3)
 				update(updateArr, this.deleteIds).then(res => {
 					this.deleteIds = []
 					this.getData()

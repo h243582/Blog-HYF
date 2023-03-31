@@ -73,9 +73,10 @@ CREATE TABLE `category`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `city_visitor`;
 CREATE TABLE `city_visitor`  (
-  `city` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '城市名称',
-  `uv` int(0) NOT NULL COMMENT '独立访客数量',
-  PRIMARY KEY (`city`) USING BTREE
+    `id` bigint(0) NOT NULL AUTO_INCREMENT,
+    `city` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci unique NOT NULL COMMENT '城市名称',
+    `uv` int(0) NOT NULL COMMENT '独立访客数量',
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -194,7 +195,7 @@ CREATE TABLE `operation_log`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `schedule_job`;
 CREATE TABLE `schedule_job`  (
-  `job_id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '任务id',
+  `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '任务id',
   `bean_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'spring bean名称',
   `method_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '方法名',
   `params` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '参数',
@@ -202,7 +203,7 @@ CREATE TABLE `schedule_job`  (
   `status` tinyint(0) NULL DEFAULT NULL COMMENT '任务状态',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`job_id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -216,7 +217,7 @@ INSERT INTO `schedule_job` VALUES (2, 'visitorSyncScheduleTask', 'syncVisitInfoT
 -- ----------------------------
 DROP TABLE IF EXISTS `schedule_job_log`;
 CREATE TABLE `schedule_job_log`  (
-  `log_id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '任务日志id',
+  `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '任务日志id',
   `job_id` bigint(0) NOT NULL COMMENT '任务id',
   `bean_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'spring bean名称',
   `method_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '方法名',
@@ -225,7 +226,7 @@ CREATE TABLE `schedule_job_log`  (
   `error` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '异常信息',
   `times` int(0) NOT NULL COMMENT '耗时（单位：毫秒）',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`log_id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -287,28 +288,6 @@ CREATE TABLE `tag`  (
   `color` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标签颜色(可选)',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for user
--- ----------------------------
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user`  (
-  `id` bigint(0) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户名',
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
-  `nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '昵称',
-  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '头像地址',
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '邮箱',
-  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
-  `update_time` datetime(0) NOT NULL COMMENT '更新时间',
-  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '角色访问权限',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of user
--- ----------------------------
-INSERT INTO `user` VALUES (1, 'Admin', '$2a$10$4wnwMW8Z4Bn6wR4K1YlbquQunlHM/4rvudVBX8oyfx16xeVtI6i7C', 'Admin', '/img/avatar.jpg', 'admin@naccl.top', '2020-09-21 16:47:18', '2020-09-21 16:47:22', 'ROLE_admin');
 
 -- ----------------------------
 -- Table structure for visit_log

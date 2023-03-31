@@ -1,7 +1,7 @@
 import {
 	SAVE_SITE_INFO,
 	SAVE_INTRODUCTION,
-	SAVE_COMMENT_RESULT,
+	SAVE_COMMENT_ResponseMessage,
 	SET_COMMENT_QUERY_PAGE_NUM,
 	SET_PARENT_COMMENT_ID,
 	RESET_COMMENT_FORM,
@@ -23,7 +23,7 @@ export default {
 	[SAVE_INTRODUCTION](state, introduction) {
 		state.introduction = introduction
 	},
-	[SAVE_COMMENT_RESULT](state, data) {
+	[SAVE_COMMENT_ResponseMessage](state, data) {
 		state.allComment = data.allComment
 		state.closeComment = data.closeComment
 		state.commentTotalPage = data.comments.totalPage

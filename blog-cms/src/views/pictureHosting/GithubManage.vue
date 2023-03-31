@@ -216,7 +216,7 @@
 				let reader = new FileReader()
 				reader.readAsDataURL(data.file)
 				reader.onload = (() => {
-					let base64 = reader.result.split(",")[1]
+					let base64 = reader.ResponseMessage.split(",")[1]
 					let fileName = data.file.name
 					if (this.nameType === '2') {
 						fileName = randomUUID() + fileName.substr(fileName.lastIndexOf("."))

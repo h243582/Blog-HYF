@@ -63,7 +63,7 @@
 			return {
 				mobileHide: true,
 				queryString: '',
-				queryResult: [],
+				queryResponseMessage: [],
 				timer: null
 			}
 		},
@@ -122,11 +122,11 @@
 				}
 				getSearchBlogList(queryString).then(res => {
 					if (res.code === 200) {
-						this.queryResult = res.data
-						if (this.queryResult.length === 0) {
-							this.queryResult.push({title: '无相关搜索结果'})
+						this.queryResponseMessage = res.data
+						if (this.queryResponseMessage.length === 0) {
+							this.queryResponseMessage.push({title: '无相关搜索结果'})
 						}
-						callback(this.queryResult)
+						callback(this.queryResponseMessage)
 					}
 				}).catch(() => {
 					this.msgError("请求失败")
