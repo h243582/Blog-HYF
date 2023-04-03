@@ -1,4 +1,4 @@
-package gatway.controller;
+package com.heyufei.user.controller;
 
 import com.heyufei.common.exception.BaseException;
 import com.heyufei.common.exception.Message;
@@ -18,7 +18,7 @@ public class DefaultExceptionHandler {
 
     @ExceptionHandler(BaseException.class)
     public Message handlerSellerException(BaseException e) {
-        logger.error("订单模块异常:{}",e.getMessage());
+        logger.error("用户模块异常:{}",e.getMessage());
         return new Message(e.getCode(),e.getMessage());
     }
 

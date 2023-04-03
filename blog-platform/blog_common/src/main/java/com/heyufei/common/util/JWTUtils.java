@@ -18,24 +18,14 @@ import java.util.Date;
  */
 @Component
 public class JwtUtils {
-    private static long expireTime;
-    private static String secretKey;
-
     @Value("${token.secretKey}")
-    public void setSecretKey(String secretKey) {
-        JwtUtils.secretKey = secretKey;
-    }
+    private static long expireTime;
 
     @Value("${token.expireTime}")
-    public void setExpireTime(long expireTime) {
-        JwtUtils.expireTime = expireTime;
-    }
+    private static String secretKey;
 
     /**
      * 判断token是否存在
-     *
-     * @param token
-     * @return
      */
     public static boolean judgeTokenIsExist(String token) {
         return token != null && !"".equals(token) && !"null".equals(token);
@@ -43,9 +33,6 @@ public class JwtUtils {
 
     /**
      * 生成token
-     *
-     * @param subject
-     * @return
      */
     public static String generateToken(String subject) {
         String jwt = Jwts.builder()
@@ -58,10 +45,6 @@ public class JwtUtils {
 
     /**
      * 生成带角色权限的token
-     *
-     * @param subject
-     * @param authorities
-     * @return
      */
     public static String generateToken(String subject, Collection<? extends GrantedAuthority> authorities) {
         StringBuilder sb = new StringBuilder();
@@ -79,10 +62,6 @@ public class JwtUtils {
 
     /**
      * 生成自定义过期时间token
-     *
-     * @param subject
-     * @param expireTime
-     * @return
      */
     public static String generateToken(String subject, long expireTime) {
         String jwt = Jwts.builder()
@@ -96,9 +75,6 @@ public class JwtUtils {
 
     /**
      * 获取tokenBody同时校验token是否有效（无效则会抛出异常）
-     *
-     * @param token
-     * @return
      */
     public static Claims getTokenBody(String token) {
         Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token.replace("Bearer", "")).getBody();

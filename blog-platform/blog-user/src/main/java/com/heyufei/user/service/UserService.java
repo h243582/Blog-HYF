@@ -14,6 +14,8 @@ import javax.persistence.criteria.Root;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.heyufei.common.exception.BaseException;
 import com.heyufei.common.exception.ErrorCode;
+import com.heyufei.common.result.ResponseMessage;
+import com.heyufei.common.util.JwtUtils;
 import com.heyufei.user.dao.UserRepository;
 import com.heyufei.user.entity.User;
 import lombok.extern.slf4j.Slf4j;
@@ -68,14 +70,11 @@ public class UserService {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("user", user);
 
-        //4-2.存入jwt  ,并且设置有效期(这里设置24小时)
-        String token = JwtUtils.createToken(hashMap, 60 * 24);
+        //4-2.存入jwt  ,并且设置有效期(24小时)
+        String token = JwtUtils.generateToken(String.valueOf(hashMap));
 
         //返回结果
-        LoginVo vo = new LoginVo();
-        vo.setAccess_token(token);
-        vo.setUsername(user.getName());
-        return ResponseResult.okResult(vo);
+        return ResponseMessage.success(token);
     }
 
 

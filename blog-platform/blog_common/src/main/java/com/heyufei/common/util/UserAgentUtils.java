@@ -1,0 +1,38 @@
+package com.heyufei.common.util;
+
+import com.heyufei.common.dto.UserAgentDTO;
+import nl.basjes.parse.useragent.UserAgent;
+import nl.basjes.parse.useragent.UserAgentAnalyzer;
+import org.springframework.stereotype.Component;
+
+/**
+ * UserAgent解析工具类
+ *
+ * @author HeYuFei
+ * @since 2023-03-31  14:17
+ */
+@Component
+public class UserAgentUtils {
+    private UserAgentAnalyzer uaa;
+
+    public UserAgentUtils() {
+        this.uaa = UserAgentAnalyzer
+                .newBuilder()
+                .useJava8CompatibleCaching()
+                .withCache(10000)
+                .hideMatcherLoadStats()
+                .withField(UserAgent.OPERATING_SYSTEM_NAME_VERSION_MAJOR)
+                .withField(UserAgent.AGENT_NAME_VERSION)
+                .build();
+    }
+
+    /**
+     * 从User-Agent解析客户端操作系统和浏览器版本
+     */
+    public UserAgentDTO parseOsAndBrowser(String userAgent) {
+        UserAgent agent = uaa.parse(userAgent);
+        String os = agent.getValue(UserAgent.OPERATING_SYSTEM_NAME_VERSION_MAJOR);
+        String browser = agent.getValue(UserAgent.AGENT_NAME_VERSION);
+        return new UserAgentDTO(os, browser);
+    }
+}
