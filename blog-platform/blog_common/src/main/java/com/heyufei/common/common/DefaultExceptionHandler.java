@@ -1,4 +1,4 @@
-package com.heyufei.user.controller;
+package com.heyufei.common.common;
 
 import com.heyufei.common.exception.BaseException;
 import com.heyufei.common.exception.Message;
@@ -26,7 +26,7 @@ public class DefaultExceptionHandler {
     public Message processRuntimeException(RuntimeException e) {
         e.printStackTrace();
         logger.error("运行时异常:{}",e.getMessage());
-`        return new Message(1604,e.getMessage());
+        return new Message(1604,e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
