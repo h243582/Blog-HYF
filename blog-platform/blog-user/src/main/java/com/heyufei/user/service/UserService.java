@@ -12,13 +12,16 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import cn.hutool.crypto.digest.DigestUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.heyufei.common.exception.BaseException;
 import com.heyufei.common.exception.ErrorCode;
 import com.heyufei.common.result.ResponseMessage;
 import com.heyufei.common.util.JwtUtils;
+import com.heyufei.common.util.PasswordUtil;
 import com.heyufei.user.dao.UserRepository;
 import com.heyufei.user.entity.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -35,7 +38,8 @@ import org.springframework.util.StringUtils;
 public class UserService {
     @Resource
     private UserRepository userRepository;
-
+    @Value("${token.secretKey}")
+    private static long expireTime;
     /**
      * 用户登录
      * @param dto
@@ -60,18 +64,20 @@ public class UserService {
         }
 
         //用户存在 则对传入的密码进行md5加密 并且与库里的进行对比
-        String mdPassword = DigestUtil.md5Hex(password);
+        String mdPassword = PasswordUtil.encrypt(password);
         if (!mdPassword.equals(user.getPassword())) {
             throw new BaseException(ErrorCode.ERROR_LOGIN_PASSWORD);
         }
 
         //4.密码比对成功 ,生成token字符串
         //4-1 构建map集合
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("user", user);
+//        HashMap<String, Object> hashMap = new HashMap<>();
+//        hashMap.put("user", user);
+
+        String s = JSONObject.toJSONString(user);
 
         //4-2.存入jwt  ,并且设置有效期(24小时)
-        String token = JwtUtils.generateToken(String.valueOf(hashMap));
+        String token = JwtUtils.generateToken(s);
 
         //返回结果
         return ResponseMessage.success(token);

@@ -18,7 +18,7 @@ CREATE TABLE if not exists `user`
 
 
 INSERT INTO user(username, password, nickname, avatar, email, create_time, update_time, role)
-SELECT 'Admin', '$2a$10$4wnwMW8Z4Bn6wR4K1YlbquQunlHM/4rvudVBX8oyfx16xeVtI6i7C', 'Admin', '/img/avatar.jpg', 'admin@naccl.top', now(), now(), 'ROLE_admin'
+SELECT 'Admin', 'X1xdWltY', 'Admin', '/img/avatar.jpg', 'admin@naccl.top', now(), now(), 'ROLE_admin'
 where not exists(select 1 from user where id=1 and username='Admin');
                                                                                                       ;
 

@@ -51,3 +51,10 @@ where not exists(select 1 from config where `key`='spring.redis.database');
 
 insert into config(`key`,value,application,comment)SELECT 'spring.redis.timeout', '10000ms', 'application', 'redis连接配置'
 where not exists(select 1 from config where `key`='spring.redis.timeout');
+
+
+insert into config(`key`,value,application,comment)SELECT 'token.expireTime', '259200000', 'application', 'jtw设置'
+    where not exists(select 1 from config where `key`='token.expireTime');
+
+insert into config(`key`,value,application,comment)SELECT 'token.secretKey', 'abcdefghijklmnopqrstuvwxyz', 'application', 'jtw设置'
+    where not exists(select 1 from config where `key`='token.secretKey');

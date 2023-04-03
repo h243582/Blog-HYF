@@ -26,13 +26,13 @@ public class DefaultExceptionHandler {
     public Message processRuntimeException(RuntimeException e) {
         e.printStackTrace();
         logger.error("运行时异常:{}",e.getMessage());
-        return new Message(1604,"操作失败");
+`        return new Message(1604,e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
     public Message processException(Exception e) {
         e.printStackTrace();
         logger.error("系统异常:{}",e.getMessage());
-        return new Message(1604,"操作失败");
+        return new Message(1604,e.getMessage());
     }
 }
