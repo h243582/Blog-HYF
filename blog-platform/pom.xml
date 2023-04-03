@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <modules>
-        <module>blog-user</module>
-        <module>blog_common</module>
-        <module>blog-gateway</module>
-    </modules>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.6</version>
+    </parent>
 
     <name>blog-platform</name>
     <groupId>com.heyufei</groupId>
@@ -16,11 +16,14 @@
     <version>BLOG-1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.6</version>
-    </parent>
+    <modules>
+        <module>blog-user</module>
+        <module>blog_common</module>
+        <module>blog-gateway</module>
+        <module>blog-storage</module>
+        <module>blog-config</module>
+    </modules>
+
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -40,11 +43,20 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
+        <dependency>
+            <!-- 让bootstrap.properties文件生效           -->
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <!--config: 在JdbcRepositoryConfiguration类中会判断是否存在JdbcTemplate类。如果不引入Jdbc，那么配置就不会生效-->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -76,6 +88,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
