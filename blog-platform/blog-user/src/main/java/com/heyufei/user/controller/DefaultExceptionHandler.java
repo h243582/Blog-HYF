@@ -1,4 +1,4 @@
-package com.heyufei.common.common;
+package com.heyufei.user.controller;
 
 import com.heyufei.common.exception.BaseException;
 import com.heyufei.common.exception.Message;

@@ -17,12 +17,17 @@ import java.util.Date;
  * @since 2023-03-31  14:17
  */
 @Component
-public class JwtUtils {
-    @Value("${token.secretKey}")
+public final class JwtUtils {
+    @Value(value = "${token.secretKey}")
     private static long expireTime;
 
-    @Value("${token.expireTime}")
+    @Value(value = "${token.expireTime}")
     private static String secretKey;
+
+
+    private JwtUtils() throws IllegalAccessException {
+        throw new IllegalAccessException();
+    }
 
     /**
      * 判断token是否存在

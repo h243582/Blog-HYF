@@ -4,9 +4,14 @@ import com.heyufei.common.result.PageResult;
 import com.heyufei.common.result.ResponseMessage;
 import com.heyufei.user.entity.User;
 import com.heyufei.user.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.config.environment.Environment;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;

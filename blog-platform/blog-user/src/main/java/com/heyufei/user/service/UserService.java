@@ -1,10 +1,8 @@
 package com.heyufei.user.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -21,7 +19,9 @@ import com.heyufei.common.util.PasswordUtil;
 import com.heyufei.user.dao.UserRepository;
 import com.heyufei.user.entity.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.config.environment.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -38,15 +38,18 @@ import org.springframework.util.StringUtils;
 public class UserService {
     @Resource
     private UserRepository userRepository;
-    @Value("${token.secretKey}")
+    @Value(value = "${token.secretKey}")
     private static long expireTime;
+
+    @Value(value = "${token.expireTime}")
+    private static String secretKey;
+
     /**
      * 用户登录
      * @param dto
      * @return
      */
     public Object login(User dto) {
-
         //1. 验证请求参数  做非空判断
         String username = dto.getUsername();//登录手机号
         String password = dto.getPassword();//登录密码
@@ -82,7 +85,6 @@ public class UserService {
         //返回结果
         return ResponseMessage.success(token);
     }
-
 
 
     /**

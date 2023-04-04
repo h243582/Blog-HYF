@@ -4,9 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cloud.config.client.ConfigServicePropertySourceLocator;
+import org.springframework.cloud.config.environment.Environment;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertySource;
+import org.springframework.core.env.StandardEnvironment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+import javax.annotation.Resource;
 
 @Slf4j
 @ComponentScan(basePackages = {"com.heyufei.user.*"})
@@ -19,17 +26,22 @@ public class UserApplication {
         SpringApplication.run(UserApplication.class, args);
     }
 
-//	/**
-//	 * 在应用程序启动时，将从数据库中读取的配置信息注册到Spring Boot环境中
-//	 */
-//	@EventListener(ApplicationReadyEvent.class)
-//	public void registerConfig() {
-//		Properties properties = configLoader.load();
-//		ConfigurableEnvironment environment = SpringApplication
-//				.run(UserApplication.class)
-//				.getEnvironment();
-//		MutablePropertySources propertySources = environment.getPropertySources();
-//		propertySources.addFirst(new PropertiesPropertySource("dbConfig", properties));
-//	}
-
+    @Resource
+    private ConfigurableEnvironment environment;
+    @Resource
+    private ConfigServicePropertySourceLocator locator;
+    @Bean
+    public void loadConfig() {
+        String[] profiles = environment.getActiveProfiles();
+        String applicationName = environment.getProperty("spring.application.name");
+        if (applicationName == null) {
+            applicationName = "application";
+        }
+        for (String profile : profiles) {
+            String label = environment.getProperty("spring.cloud.config.label");
+            String name = String.format("%s-%s", applicationName, profile);
+            PropertySource<?> propertySource = locator.locate(environment);
+            environment.getPropertySources().addFirst(propertySource);
+        }
+    }
 }

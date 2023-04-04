@@ -32,6 +32,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <!--config: 在JdbcRepositoryConfiguration类中会判断是否存在JdbcTemplate类。如果不引入Jdbc，那么配置就不会生效-->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
     </dependencies>
 
 
