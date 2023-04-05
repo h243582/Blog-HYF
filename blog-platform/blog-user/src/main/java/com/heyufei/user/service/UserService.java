@@ -2,14 +2,12 @@ package com.heyufei.user.service;
 
 import java.util.*;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import cn.hutool.crypto.digest.DigestUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.heyufei.common.exception.BaseException;
 import com.heyufei.common.exception.ErrorCode;
@@ -18,10 +16,9 @@ import com.heyufei.common.util.JwtUtils;
 import com.heyufei.common.util.PasswordUtil;
 import com.heyufei.user.dao.UserRepository;
 import com.heyufei.user.entity.User;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.config.environment.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -38,14 +35,15 @@ import org.springframework.util.StringUtils;
 public class UserService {
     @Resource
     private UserRepository userRepository;
-    @Value(value = "${token.secretKey}")
-    private static long expireTime;
-
     @Value(value = "${token.expireTime}")
-    private static String secretKey;
+    private long expireTime;
+
+    @Value(value = "${token.secretKey}")
+    private String secretKey;
 
     /**
      * 用户登录
+     *
      * @param dto
      * @return
      */
@@ -80,11 +78,17 @@ public class UserService {
         String s = JSONObject.toJSONString(user);
 
         //4-2.存入jwt  ,并且设置有效期(24小时)
-        String token = JwtUtils.generateToken(s);
+        String token = JwtUtils.generateToken(s, expireTime, secretKey);
 
         //返回结果
         return ResponseMessage.success(token);
     }
+
+    public Object tokenAnalysis(String token) {
+        Claims claims = JwtUtils.getTokenBody(token, secretKey);
+        return claims;
+    }
+
 
 
     /**

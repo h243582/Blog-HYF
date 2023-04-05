@@ -16,15 +16,7 @@ import java.util.Date;
  * @author HeYuFei
  * @since 2023-03-31  14:17
  */
-@Component
 public final class JwtUtils {
-    @Value(value = "${token.secretKey}")
-    private static long expireTime;
-
-    @Value(value = "${token.expireTime}")
-    private static String secretKey;
-
-
     private JwtUtils() throws IllegalAccessException {
         throw new IllegalAccessException();
     }
@@ -39,7 +31,7 @@ public final class JwtUtils {
     /**
      * 生成token
      */
-    public static String generateToken(String subject) {
+    public static String generateToken(String subject, long expireTime, String secretKey) {
         String jwt = Jwts.builder()
                 .setSubject(subject)
                 .setExpiration(new Date(System.currentTimeMillis() + expireTime))
@@ -51,7 +43,7 @@ public final class JwtUtils {
     /**
      * 生成带角色权限的token
      */
-    public static String generateToken(String subject, Collection<? extends GrantedAuthority> authorities) {
+    public static String generateToken(String subject, Collection<? extends GrantedAuthority> authorities, long expireTime, String secretKey) {
         StringBuilder sb = new StringBuilder();
         for (GrantedAuthority authority : authorities) {
             sb.append(authority.getAuthority()).append(",");
@@ -66,22 +58,9 @@ public final class JwtUtils {
     }
 
     /**
-     * 生成自定义过期时间token
-     */
-    public static String generateToken(String subject, long expireTime) {
-        String jwt = Jwts.builder()
-                .setSubject(subject)
-                .setExpiration(new Date(System.currentTimeMillis() + expireTime))
-                .signWith(SignatureAlgorithm.HS512, secretKey)
-                .compact();
-        return jwt;
-    }
-
-
-    /**
      * 获取tokenBody同时校验token是否有效（无效则会抛出异常）
      */
-    public static Claims getTokenBody(String token) {
+    public static Claims getTokenBody(String token, String secretKey) {
         Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token.replace("Bearer", "")).getBody();
         return claims;
     }
