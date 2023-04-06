@@ -4,6 +4,7 @@ import com.heyufei.common.result.PageResult;
 import com.heyufei.common.result.ResponseMessage;
 import com.heyufei.user.entity.User;
 import com.heyufei.user.service.UserService;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ import java.util.Map;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/user")
+@RequestMapping("/")
 public class UserController {
     @Resource
     private UserService userService;

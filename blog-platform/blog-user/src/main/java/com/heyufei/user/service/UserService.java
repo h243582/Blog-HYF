@@ -1,13 +1,5 @@
 package com.heyufei.user.service;
 
-import java.util.*;
-
-import javax.annotation.Resource;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
 import com.alibaba.fastjson.JSONObject;
 import com.heyufei.common.exception.BaseException;
 import com.heyufei.common.exception.ErrorCode;
@@ -19,11 +11,21 @@ import com.heyufei.user.entity.User;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 服务层
@@ -32,6 +34,7 @@ import org.springframework.util.StringUtils;
  */
 @Slf4j
 @Service
+@RefreshScope
 public class UserService {
     @Resource
     private UserRepository userRepository;

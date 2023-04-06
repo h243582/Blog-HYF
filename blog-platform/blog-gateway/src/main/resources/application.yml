@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: 'blog-user'
+          uri: lb://blog-user
+          predicates:
+            # 匹配controller执行的路径
+            - Path=/api/v1/user/**
+          filters:
+            - RewritePath=/api/v1/?(?<segment>.*), /$\{segment}
+
+
+
+
+
