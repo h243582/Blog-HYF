@@ -15,6 +15,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -23,6 +24,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +45,11 @@ public class UserService {
 
     @Value(value = "${token.secretKey}")
     private String secretKey;
+
+    public static final Duration SESSION_DURATION = Duration.ofMinutes(30);
+
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     /**
      * 用户登录
@@ -74,14 +81,12 @@ public class UserService {
         }
 
         //4.密码比对成功 ,生成token字符串
-        //4-1 构建map集合
-//        HashMap<String, Object> hashMap = new HashMap<>();
-//        hashMap.put("user", user);
-
         String s = JSONObject.toJSONString(user);
 
         //4-2.存入jwt  ,并且设置有效期(24小时)
         String token = JwtUtils.generateToken(s, expireTime, secretKey);
+
+        redisTemplate.opsForValue().set("Authorization:" + user.getId(), token, SESSION_DURATION);
 
         //返回结果
         return ResponseMessage.success(token);
@@ -91,7 +96,6 @@ public class UserService {
         Claims claims = JwtUtils.getTokenBody(token, secretKey);
         return claims;
     }
-
 
 
     /**

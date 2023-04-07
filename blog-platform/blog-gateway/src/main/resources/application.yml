@@ -1,6 +1,7 @@
 spring:
   cloud:
     gateway:
+      #局部过滤器
       routes:
         - id: 'blog-user'
           uri: lb://blog-user

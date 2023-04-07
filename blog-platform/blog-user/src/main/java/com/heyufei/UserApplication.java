@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Slf4j
-@ComponentScan(basePackages = {"com.heyufei.user.*"})
+//@ComponentScan(basePackages = {"com.heyufei.user.*","com.heyufei.common.*",})
 @EnableJpaRepositories(basePackages = {"com.heyufei.user.*"})
 @EntityScan(basePackages = {"com.heyufei.user.*"})
 @EnableFeignClients(basePackages = {"com.heyufei.user.*"})

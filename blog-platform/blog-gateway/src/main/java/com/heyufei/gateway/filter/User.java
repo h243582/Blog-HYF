@@ -1,4 +1,4 @@
-package com.heyufei.user.entity;
+package com.heyufei.gateway.filter;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

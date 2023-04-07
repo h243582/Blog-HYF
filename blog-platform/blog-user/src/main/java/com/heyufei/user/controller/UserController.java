@@ -25,10 +25,7 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @PostMapping("/login")
-    public ResponseMessage login(@RequestBody User user) {
-        return ResponseMessage.success(userService.login(user));
-    }
+
     @GetMapping("/token-analysis")
     public ResponseMessage login(@RequestParam String token) {
         return ResponseMessage.success(userService.tokenAnalysis(token));
