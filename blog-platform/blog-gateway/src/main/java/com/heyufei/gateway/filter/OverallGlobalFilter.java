@@ -58,7 +58,7 @@ public class OverallGlobalFilter implements GlobalFilter, Ordered {
     @SneakyThrows
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        System.err.println("login filter starter");
+        log.info("login filter starter");
         //获取请求和响应对象
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
