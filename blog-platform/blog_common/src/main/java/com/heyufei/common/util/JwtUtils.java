@@ -17,6 +17,11 @@ import java.util.Date;
  * @since 2023-03-31  14:17
  */
 public final class JwtUtils {
+    /**
+     * redis中的token值开头
+     */
+    private static final String Token_Redis_Value_Starts = "Heyufei:";
+
     private JwtUtils() throws IllegalAccessException {
         throw new IllegalAccessException();
     }
@@ -58,10 +63,9 @@ public final class JwtUtils {
     }
 
     /**
-     * 获取tokenBody同时校验token是否有效（无效则会抛出异常）
+     * 获取tokenBody同时校验token是否有效（无效则会抛出异常，剔除了值的前缀）
      */
     public static Claims getTokenBody(String token, String secretKey) {
-        Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token.replace("Bearer", "")).getBody();
-        return claims;
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token.replace(Token_Redis_Value_Starts, "")).getBody();
     }
 }

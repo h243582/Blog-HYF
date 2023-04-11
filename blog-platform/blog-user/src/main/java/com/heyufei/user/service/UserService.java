@@ -45,7 +45,14 @@ public class UserService {
 
     @Value(value = "${token.secretKey}")
     private String secretKey;
-
+    /**
+     * redis中的token键开头
+     */
+    private static final String Token_Redis_Key_Starts = "Authorization:";
+    /**
+     * redis中的token值开头
+     */
+    private static final String Token_Redis_Value_Starts = "Heyufei:";
     public static final Duration SESSION_DURATION = Duration.ofMinutes(30);
 
     @Resource
@@ -84,9 +91,9 @@ public class UserService {
         String s = JSONObject.toJSONString(user);
 
         //4-2.存入jwt  ,并且设置有效期(24小时)
-        String token = JwtUtils.generateToken(s, expireTime, secretKey);
+        String token = Token_Redis_Value_Starts + JwtUtils.generateToken(s, expireTime, secretKey);
 
-        redisTemplate.opsForValue().set("Authorization:" + user.getId(), token, SESSION_DURATION);
+        redisTemplate.opsForValue().set(Token_Redis_Key_Starts + user.getId(), token, SESSION_DURATION);
 
         //返回结果
         return ResponseMessage.success(token);

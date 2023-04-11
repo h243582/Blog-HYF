@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @Slf4j
-@ComponentScan(basePackages = {"com.heyufei.gateway.*"})
+//@ComponentScan(basePackages = {"com.heyufei.gateway.*"})
 @EnableJpaRepositories(basePackages = {"com.heyufei.gateway.*"})
 @EntityScan(basePackages = {"com.heyufei.gateway.*"})
 @EnableFeignClients(basePackages = {"com.heyufei.gateway.*"})
