@@ -10,7 +10,6 @@ import org.springframework.cloud.config.server.EnableConfigServer;
  * @since 2023-04-03  14:07
  */
 @EnableConfigServer
-@SpringBootConfiguration
 @SpringBootApplication
 public class ConfigApplication {
     public static void main(String[] args) {

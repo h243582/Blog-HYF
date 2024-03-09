@@ -17,7 +17,7 @@ insert into config(`key`,value,application,comment)SELECT 'spring.datasource.dri
 where not exists(select 1 from config where `key`='spring.datasource.driver-class-name');
 
 insert into config(`key`,value,application,comment)
-SELECT 'spring.datasource.url', 'jdbc:mysql://47.111.83.47:3306/blog?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8', 'application', 'mysql连接配置'
+SELECT 'spring.datasource.url', 'jdbc:mysql://192.168.10.131:3306/blog?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8', 'application', 'mysql连接配置'
 where not exists(select 1 from config where `key`='spring.datasource.url');
 
 insert into config(`key`,value,application,comment)SELECT 'spring.datasource.username', 'root', 'application', 'mysql连接配置'
@@ -37,7 +37,7 @@ where not exists(select 1 from config where `key`='spring.jpa.properties.hiberna
 
 
 
-insert into config(`key`,value,application,comment)SELECT 'spring.redis.host', '47.111.83.47', 'application', 'redis连接配置'
+insert into config(`key`,value,application,comment)SELECT 'spring.redis.host', '192.168.10.131', 'application', 'redis连接配置'
 where not exists(select 1 from config where `key`='spring.redis.host');
 
 insert into config(`key`,value,application,comment)SELECT 'spring.redis.password', '123456', 'application', 'redis连接配置'
